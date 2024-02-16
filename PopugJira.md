@@ -97,19 +97,18 @@ flowchart LR
             C_RunDayFin --> E_FinalizedDayTopsEarned(FinalizedDayTopsEarned):::event
         end
 
+        subgraph Заканчиваем день у попуга 
+            E_FinalizeDay --> C_FinalizePopugDay[Finalize popug day]:::command
+            Q_GetPopugBalance <--> C_FinalizePopugDay
+            C_FinalizePopugDay -->|if positive| C_ZeroBalance[Zero balance]:::command
+            C_FinalizePopugDay --> E_DayFinalized(DayFinalized):::event
+            C_FinalizePopugDay --> C_StoreAudit
+        end
+
         subgraph Отправляем письмо
             E_DayFinalized --> C_BuildEmailAboutSalary[Build email about salary]:::command
             C_BuildEmailAboutSalary --> E_SendEarnedEmail(Send earned email):::event
         end
-        subgraph Заканчиваем день у попуга 
-            E_FinalizeDay --> C_FinalizePopugDay[Finalize popug day]:::command
-            Q_GetPopugBalance <--> if_positive{If positive}
-            if_positive -->|yes| C_ZeroBalance[Zero balance]:::command
-            C_FinalizePopugDay --> E_DayFinalized(DayFinalized):::event
-            C_FinalizePopugDay --> C_StoreAudit
-        end
-        
-        
 
         subgraph Рассчитываем стоимость задачи
             E_TaskCreated --> C_CalcTaskPrices[Calc task prices]:::command
