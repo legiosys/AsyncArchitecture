@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopugJira.Auth", "PopugJira.Auth\PopugJira.Auth.csproj", "{DF51E15C-A75B-4F8C-9392-817864199291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PopugJira.Tracker", "PopugJira.Tracker\PopugJira.Tracker.csproj", "{53F5D11F-ED66-461C-9594-95C35A905467}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF51E15C-A75B-4F8C-9392-817864199291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF51E15C-A75B-4F8C-9392-817864199291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF51E15C-A75B-4F8C-9392-817864199291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF51E15C-A75B-4F8C-9392-817864199291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F5D11F-ED66-461C-9594-95C35A905467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F5D11F-ED66-461C-9594-95C35A905467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F5D11F-ED66-461C-9594-95C35A905467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F5D11F-ED66-461C-9594-95C35A905467}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

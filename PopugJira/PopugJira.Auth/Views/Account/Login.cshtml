@@ -1,0 +1,41 @@
+﻿@model PopugJira.Auth.ViewModels.Account.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "_Layout";
+}
+<div class="col-md-4">
+<form id="account" method="post" novalidate="novalidate">
+    <h2>Popug Login</h2>
+    <hr>
+    @if (!string.IsNullOrWhiteSpace(Model?.Error))
+    {
+        <div class="alert-danger">@Model.Error</div>
+    }
+    <div class="form-floating mb-3">
+        <input class="form-control valid" autocomplete="username" aria-required="true" placeholder="name@example.com" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Login" name="Login" value="" aria-describedby="Login-error" aria-invalid="false">
+        <label class="form-label" for="Login">Login</label>
+        <span class="text-danger field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input class="form-control valid" autocomplete="current-password" aria-required="true" placeholder="password" type="password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" aria-describedby="Input_Password-error" aria-invalid="false">
+        <label class="form-label" for="Password">Password</label>
+        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+    </div>
+    <div class="checkbox mb-3">
+        <label class="form-label" for="Remember">
+            <input class="form-check-input" type="checkbox" checked="checked" data-val="true" data-val-required="The Remember me? field is required." id="Remember" name="Remember" value="@Model?.Remember.ToString()">
+            Remember me?
+        </label>
+    </div>
+    <div>
+        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+    </div>
+    <div>
+        <p>
+            <a href="/Account/Register?returnUrl=%2F">Register as a new user</a>
+        </p>
+    </div>
+    <input name="ReturnUrl" type="hidden" id="ReturnUrl" value="@Model?.ReturnUrl">
+</form>
+</div>

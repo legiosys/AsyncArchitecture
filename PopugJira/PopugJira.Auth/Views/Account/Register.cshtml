@@ -1,0 +1,42 @@
+﻿@model PopugJira.Auth.ViewModels.Account.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "_Layout";
+}
+
+<div class="col-md-4">
+<form id="account" method="post" novalidate="novalidate">
+    <h2>Popug Registration</h2>
+    <hr>
+    @if (!string.IsNullOrWhiteSpace(Model?.Error))
+    {
+        <div class="alert-danger">@Model.Error</div>
+    }
+    <div class="form-floating mb-3">
+        <input class="form-control valid" autocomplete="username" aria-required="true" placeholder="name@example.com" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Login" name="Login" value="" aria-describedby="Input_Email-error" aria-invalid="false">
+        <label class="form-label" for="Login">Login</label>
+        <span class="text-danger field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+    </div>
+    <div class="form-floating mb-3">
+        <input class="form-control valid" autocomplete="current-password" aria-required="true" placeholder="password" type="password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" aria-describedby="Input_Password-error" aria-invalid="false">
+        <label class="form-label" for="Password">Password</label>
+        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <select class="form-control valid" name="Position" id="Position">
+            <option selected="selected">worker</option>
+            <option>admin</option>
+            <option>accountant</option>
+            <option>manager</option>
+        </select>
+        <label class="form-label" for="Position">Position</label>
+        <span class="text-danger field-validation-valid" data-valmsg-for="IPassword" data-valmsg-replace="true"></span>
+    </div>
+
+    <div>
+        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+    </div>
+</form>
+</div>
