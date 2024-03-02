@@ -30,20 +30,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 //app.MapIdentityApi<Popug>();
-/*app.MapControllers();
+app.MapControllers();
 app.MapDefaultControllerRoute();
-app.MapRazorPages();*/
-app.UseEndpoints(endpoints =>
+app.MapRazorPages();
+/*app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
-});
+});*/
 
 
 await using (var scope = app.Services.CreateAsyncScope())
 {
-    await InitUserAndRolesExtensions.InitPopugDb(scope.ServiceProvider);
-    Console.WriteLine("Popug Db initialized");
+    await InitAuthExtensions.InitRoles(scope.ServiceProvider);
+    await InitAuthExtensions.InitOAuthApps(scope.ServiceProvider);
+    Console.WriteLine("PopugAuth initialized");
 }
 app.Run();

@@ -1,6 +1,0 @@
-@PopugJira.Tracker_HostAddress = http://localhost:5142
-
-GET {{PopugJira.Tracker_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

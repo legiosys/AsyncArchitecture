@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PopugJira.Auth")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c6a7855faf94e762be1cf0bd0bbf3ae49618aa9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+63c68871da5853f6b2be23eddd051a6912197cdb")]
 [assembly: System.Reflection.AssemblyProductAttribute("PopugJira.Auth")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PopugJira.Auth")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

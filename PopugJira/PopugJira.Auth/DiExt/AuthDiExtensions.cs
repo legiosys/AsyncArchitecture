@@ -36,8 +36,6 @@ public static class AuthDiExtensions
             opt.Password.RequireUppercase = false;
             opt.Password.RequiredLength = 3;
         });
-        
-        services.AddHostedService<Worker>();
     }
 
     private static void AddOpenIdDict(IServiceCollection services)
