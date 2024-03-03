@@ -12,5 +12,5 @@
 /dataSources/
 /dataSources.local.xml
 /.idea
-/bin
-/obj
+/**/**/bin
+/**/**/obj
