@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using PopugJira.Auth.Db;
 using PopugJira.Auth.Models;
 using Quartz;
@@ -17,7 +18,7 @@ public static class AuthDiExtensions
         services.AddDbContext<PopugContext>(
             options =>
             {
-                options.UseInMemoryDatabase("Users");
+                options.UseNpgsql(new NpgsqlConnection("Server=localhost;Port = 5432;Database=auth;Persist Security Info=True;User ID=postgres;Password=Passw0rd!;"));
                 options.UseOpenIddict();
             });
         
@@ -25,8 +26,7 @@ public static class AuthDiExtensions
         
         services.AddIdentity<Popug,IdentityRole>()
             .AddEntityFrameworkStores<PopugContext>()
-            .AddDefaultTokenProviders()
-            .AddDefaultUI();
+            .AddDefaultTokenProviders();
         
         services.Configure<IdentityOptions>(opt =>
         {

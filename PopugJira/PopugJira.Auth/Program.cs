@@ -12,6 +12,8 @@ builder.Services.AddAuth();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddKafka();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Client;
+using PopugJira.Auth.Contracts;
 using PopugJira.Tracker.Db;
 using Quartz;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -24,6 +25,14 @@ public static class AuthDiExtensions
             options.ExpireTimeSpan = TimeSpan.FromMinutes(50);
             options.SlidingExpiration = false;
         });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("worker", policy => policy.RequireClaim(Claims.Role, PopugPositionsEnum.Worker));
+            options.AddPolicy("manager",
+                policy => policy.RequireClaim(Claims.Role, PopugPositionsEnum.Admin, PopugPositionsEnum.Manager));
+        });
+        
         services.AddQuartz(options =>
         {
             options.UseMicrosoftDependencyInjectionJobFactory();
@@ -60,7 +69,7 @@ public static class AuthDiExtensions
 
                     ClientId = "tracker",
                     ClientSecret = "901564A5-E7FE-42CB-B10D-61EF6A8F3654",
-                    Scopes = { Scopes.Roles },
+                    Scopes = { Scopes.Roles},
                     RedirectUri = new Uri("callback/login/local", UriKind.Relative),
                     PostLogoutRedirectUri = new Uri("callback/logout/local", UriKind.Relative)
                 });

@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
+using PopugJira.Auth.Contracts;
 using PopugJira.Auth.Db;
 using PopugJira.Auth.Models;
 
@@ -12,22 +13,11 @@ public class InitAuthExtensions
     public static async Task InitRoles(IServiceProvider sp)
     {
         var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
-        await AddRoleIfNeed("admin");
-        await AddRoleIfNeed("worker");
-        await AddRoleIfNeed("manager");
-        await AddRoleIfNeed("accountant");
-
-        var userManager = sp.GetRequiredService<UserManager<Popug>>();
-        var popug = await userManager.FindByNameAsync("admin");
-        if (popug == null)
-        {
-            popug = new Popug() {UserName = "admin"};
-            await userManager.CreateAsync(popug, "admin");
-        }
-
-        if(!await userManager.IsInRoleAsync(popug,"admin"))
-            await userManager.AddToRoleAsync(popug, "admin");
-
+        await AddRoleIfNeed(PopugPositionsEnum.Admin);
+        await AddRoleIfNeed(PopugPositionsEnum.Accountant);
+        await AddRoleIfNeed(PopugPositionsEnum.Manager);
+        await AddRoleIfNeed(PopugPositionsEnum.Worker);
+        
         async Task AddRoleIfNeed(string role)
         {
             if (await roleManager.RoleExistsAsync(role))

@@ -1,4 +1,6 @@
-﻿@model PopugJira.Auth.ViewModels.Account.RegisterViewModel
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PopugJira.Auth.Contracts
+@model PopugJira.Auth.ViewModels.Account.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -26,10 +28,10 @@
     
     <div class="form-floating mb-3">
         <select class="form-control valid" name="Position" id="Position">
-            <option selected="selected">worker</option>
-            <option>admin</option>
-            <option>accountant</option>
-            <option>manager</option>
+            <option selected="selected">@PopugPositionsEnum.Worker</option>
+            <option>@PopugPositionsEnum.Admin</option>
+            <option>@PopugPositionsEnum.Manager</option>
+            <option>@PopugPositionsEnum.Accountant</option>
         </select>
         <label class="form-label" for="Position">Position</label>
         <span class="text-danger field-validation-valid" data-valmsg-for="IPassword" data-valmsg-replace="true"></span>

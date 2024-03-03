@@ -4,6 +4,10 @@ using PopugJira.Auth.Models;
 
 namespace PopugJira.Auth.Db;
 
-public class PopugContext(DbContextOptions<PopugContext> options) : IdentityDbContext<Popug>(options)
+public class PopugContext : IdentityDbContext<Popug>
 {
+    public PopugContext(DbContextOptions<PopugContext> options) : base(options)
+    {
+        Database.Migrate();
+    }
 }
