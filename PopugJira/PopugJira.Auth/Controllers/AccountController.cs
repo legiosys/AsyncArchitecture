@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Immutable;
+using Confluent.Kafka;
+using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PopugJira.Auth.Contracts;
 using PopugJira.Auth.Models;
 using PopugJira.Auth.ViewModels.Account;
 
@@ -40,7 +44,9 @@ public class AccountController : Controller
 
     [HttpPost]
     public async Task<IActionResult> Register([FromForm]RegisterViewModel request, 
-        [FromServices] UserManager<Popug> userManager)
+        [FromServices] UserManager<Popug> userManager, 
+        [FromServices] ITopicProducer<PopugChanged> popugChangedProducer,
+        [FromServices] ITopicProducer<PopugRegistered> popugRegisteredProducer)
     {
         var popug = new Popug() {UserName = request.Login};
         var result = await userManager.CreateAsync(popug, request.Password);
@@ -56,6 +62,14 @@ public class AccountController : Controller
             request.Error = result.Errors.FirstOrDefault()?.Description;
             return View(request);
         }
+
+        await popugChangedProducer.Produce(new PopugChanged(popug.PopugId(), PopugChangedTypes.Created,
+            new Dictionary<string, string>
+                {
+                    {"position", request.Position},
+                    {"login", request.Login}
+                }));
+        await popugRegisteredProducer.Produce(new PopugRegistered(popug.PopugId(), request.Login, request.Position));
         
         return RedirectToAction("Login");
     }
