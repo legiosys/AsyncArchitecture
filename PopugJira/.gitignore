@@ -12,5 +12,15 @@
 /dataSources/
 /dataSources.local.xml
 /.idea
+**/bin
+**/obj
+/PopugJira/PopugJira.Auth/bin/
+/PopugJira/PopugJira.Auth/obj/
+/PopugJira/PopugJira.Auth.Contracts/bin/
+/PopugJira/PopugJira.Auth.Contracts/obj/
+/PopugJira/PopugJira.Tracker/bin/
+/PopugJira/PopugJira.Tracker/obj/
+/PopugJira/PopugJira.Tracker.Contracts/bin/
+/PopugJira/PopugJira.Tracker.Contracts/obj/
 /**/**/bin
 /**/**/obj
