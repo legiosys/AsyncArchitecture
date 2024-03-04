@@ -29,8 +29,7 @@ flowchart LR
             C_Auth_tr --> PM_tr([Popug Manager]):::actor
         end
         subgraph Узнали о новом попуге
-            E_PopugCreated --> C_StorePopugInfo_Tracker["`Store popug info 
-            (id + role)`"]:::command
+            E_PopugCreated --> C_StorePopugInfo_Tracker["Store popug info"]:::command
         end
         
         subgraph Просмотр дашборда задач
@@ -45,7 +44,7 @@ flowchart LR
         subgraph Заасайнить задачи
             PM_tr --> C_AssignAllTasks[Assign all tasks]:::command
             Q_GetActiveTasks[Get active tasks]:::query <--> C_AssignAllTasks
-            C_AssignAllTasks --> E_AssignRequested(AssignRequested):::event
+            C_AssignAllTasks --> E_AssignRequested(TaskAssignRequested):::event
         end
 
         subgraph Ассайн задачи
@@ -94,7 +93,9 @@ flowchart LR
             J_FinalizeDayJob --> C_RunDayFin[Run day finalization]:::command
             C_RunDayFin <--> Q_GetWorkingPopugs[Get working popugs]:::query
             C_RunDayFin --> E_FinalizeDay(FinalizeDayRequested):::event
-            C_RunDayFin --> E_FinalizedDayTopsEarned(FinalizedDayTopsEarned):::event
+            C_RunDayFin --> C_FinalizeTopsEarnings[Finalize tops earnings]:::command
+            C_FinalizeTopsEarnings --> E_FinalizedDayTopsEarned(FinalizedDayTopsEarned):::event
+            C_FinalizeTopsEarnings <--> Q_GetEarnedForTops
         end
 
         subgraph Заканчиваем день у попуга 
@@ -167,3 +168,88 @@ flowchart LR
     classDef command fill:lightblue,color:black
     classDef query fill:lightgreen,color:black
 ```
+
+```mermaid
+---
+title: Модель данных
+---
+flowchart LR
+    subgraph Popug 
+        popug --> auth
+        popug --> role
+    end
+    
+    subgraph Task tracker 
+        task --> status
+        task --> assignee
+        assignee --> assigned_popug[popug]
+        assigned_popug <-.->|id, role| popug
+    end
+    
+    subgraph Accounting
+        task_acc[task] <-.->|"id, action(created, assigned, completed)"| task
+        task_acc --> prices
+        prices --> tops_earnings
+        account --> day_result
+        prices --> day_result
+        account --> popug_acc[popug]
+        popug_acc <-.->|id, role| popug
+        account --> audit
+    end
+
+    subgraph Analytics
+        tops_earnings_an[tops_earnings] <-.-> tops_earnings
+        day_result_an[day_result] <-.->|earned_money| day_result
+        minus_popugs --> day_result_an
+        complete_price[prices] --> most_expensive_task
+        complete_price <-.-> |complete_price| prices
+    end
+```
+# Сервисы
+## Попугаус (Auth Service)
+* Синхронные запросы авторизации из других сервисов
+* Асинхронные события о создании/изменении попуга
+## Task Tracker
+* Синхронные запросы для просмотра дашборда
+* Асинхронные события о создании/изменении задания
+## Accounting
+* Синхронные запросы для просмотра дашборда
+* Асинхронные события о финансовых операциях в сервисе
+## Analytics
+* Синхронные запросы для просмотра дашборда
+
+# Бизнес события
+## TaskCreated
+* Producer: Task Tracker
+* Consumers: Task Tracker, Accounting
+## TaskAssigned
+* Producer: Task Tracker
+* Consumers: Accounting
+## TaskCompleted
+* Producer: Task Tracker
+* Consumers: Accounting
+## DayFinalized
+* Producer: Accounting
+* Consumer: Analytics, Email Service (Accounting)
+
+# CUD
+## PopugCreated
+* Producer: Попугаус
+* Consumers: Task Tracker, Accounting
+* Data: PopugId, Role
+## TaskAssignRequested
+* Producer: Task Tracker
+* Consumers: Task Tracker
+* Data: TaskId
+## TaskCompletionBilled
+* Producer: Accounting
+* Consumer: Analytics
+* Data: CompletionPrice
+## FinalizeDayRequested
+* Producer: Accounting
+* Consumers: Accounting
+* Data: PopugId
+## FinalizedDayTopsEarned
+* Producer: Accounting
+* Consumer: Analytics
+* Data: TopsEarnedMoney
