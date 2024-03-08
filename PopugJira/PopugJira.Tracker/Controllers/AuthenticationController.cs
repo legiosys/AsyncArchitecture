@@ -116,8 +116,10 @@ public class AuthenticationController : Controller
         // claims can be resolved from the external identity and copied to the final authentication cookie.
         identity.SetClaim(ClaimTypes.Email, result.Principal.GetClaim(ClaimTypes.Email))
                 .SetClaim(ClaimTypes.Name, result.Principal.GetClaim(ClaimTypes.Name))
-                .SetClaim(ClaimTypes.NameIdentifier, result.Principal.GetClaim(ClaimTypes.NameIdentifier));
-
+                .SetClaim(ClaimTypes.NameIdentifier, result.Principal.GetClaim(ClaimTypes.NameIdentifier))
+                .SetClaim(Claims.Role, result.Principal.GetClaim(Claims.Role))
+                .SetClaim(Claims.Subject, result.Principal.GetClaim(Claims.Subject));
+        
         // Preserve the registration identifier to be able to resolve it later.
         identity.SetClaim(Claims.Private.RegistrationId, result.Principal.GetClaim(Claims.Private.RegistrationId));
 
