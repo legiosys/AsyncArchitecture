@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using MassTransit.KafkaIntegration.Serializers;
 using PopugJira.Auth.Contracts;
 using PopugJira.Tracker.Contracts;
 using PopugJira.Tracker.Handlers;
@@ -16,7 +17,7 @@ public static class KafkaDiExtensions
             {
                 rider.AddConsumer<ManageAccountHandler>();
                 rider.AddProducer<TaskChanged>("tasks-streaming");
-                rider.AddProducer<TaskOperationPerformed>("tasks-operations");
+                rider.AddProducer<TaskOperationPerformed>("tasks-lifecycle");
                 rider.UsingKafka(((context, kafka) =>
                 {
                     kafka.Host("localhost:9092");

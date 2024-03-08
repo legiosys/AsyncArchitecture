@@ -13,7 +13,6 @@ public static class KafkaDiExtensions
             cfg.AddRider(rider =>
             {
                 rider.AddProducer<PopugChanged>("popug-streaming");
-                rider.AddProducer<PopugRegistered>("popug-registrations");
                 rider.UsingKafka(((context, kafka) =>
                 {
                     kafka.Host("localhost:9092");

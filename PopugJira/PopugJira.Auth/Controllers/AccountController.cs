@@ -45,8 +45,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register([FromForm]RegisterViewModel request, 
         [FromServices] UserManager<Popug> userManager, 
-        [FromServices] ITopicProducer<PopugChanged> popugChangedProducer,
-        [FromServices] ITopicProducer<PopugRegistered> popugRegisteredProducer)
+        [FromServices] ITopicProducer<PopugChanged> popugChangedProducer)
     {
         var popug = new Popug() {UserName = request.Login};
         var result = await userManager.CreateAsync(popug, request.Password);
@@ -69,7 +68,6 @@ public class AccountController : Controller
                     {"position", request.Position},
                     {"login", request.Login}
                 }));
-        await popugRegisteredProducer.Produce(new PopugRegistered(popug.PopugId(), request.Login, request.Position));
         
         return RedirectToAction("Login");
     }
