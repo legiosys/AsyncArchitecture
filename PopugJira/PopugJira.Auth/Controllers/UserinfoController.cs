@@ -1,9 +1,11 @@
+using EventSchemaRegistry;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
+using PopugJira.Auth.Contracts;
 using PopugJira.Auth.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -63,4 +65,9 @@ public class UserinfoController : Controller
 
         return Ok(claims);
     }
+
+    [HttpGet("test")]
+    public bool GetSch() => SchemeValidator.IsValid(new KafkaEvent<Popug_Changed_V1>(
+        new Popug_Changed_V1(Guid.NewGuid(), PopugChangedTypes.Created, new Dictionary<string, string>()),
+        "PopugAuth"), out _);
 }

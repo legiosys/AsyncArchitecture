@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit.Kafka" Version="8.1.3" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Schemas\FinTransaction\Applied\1.json" />
+      <EmbeddedResource Include="Schemas\Payment\Completed\1.json" />
+      <EmbeddedResource Include="Schemas\TaskPrice\Calculated\1.json" />
+      <EmbeddedResource Include="Schemas\Task\Added\1.json" />
+      <EmbeddedResource Include="Schemas\Task\Assigned\1.json" />
+      <EmbeddedResource Include="Schemas\Task\Changed\1.json" />
+      <EmbeddedResource Include="Schemas\Task\Changed\2.json" />
+      <EmbeddedResource Include="Schemas\Task\Completed\1.json" />
+      <None Remove="Schemas\Popug\Changed\1.json" />
+      <EmbeddedResource Include="Schemas\Popug\Changed\1.json" />
+    </ItemGroup>
+
+</Project>

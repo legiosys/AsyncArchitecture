@@ -36,21 +36,29 @@ public class InitAuthExtensions
 
         var manager = sp.GetRequiredService<IOpenIddictApplicationManager>();
 
-        if (await manager.FindByClientIdAsync("tracker") == null)
+        await AddIfNeed(manager, "tracker", "901564A5-E7FE-42CB-B10D-61EF6A8F3654", 5142);
+        await AddIfNeed(manager, "accounting", "AAA9EF13-A963-4149-B50D-B20E95BC6AC3", 5248);
+        await AddIfNeed(manager, "analytics", "061E8469-C450-4E9F-81D2-07D482AA20A6", 7222);
+    }
+
+    private static async Task AddIfNeed(IOpenIddictApplicationManager manager,
+        string clientId, string clientSecret, int port)
+    {
+        if (await manager.FindByClientIdAsync(clientId) == null)
         {
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
-                ClientId = "tracker",
-                ClientSecret = "901564A5-E7FE-42CB-B10D-61EF6A8F3654",
+                ClientId = clientId,
+                ClientSecret = clientSecret,
                 ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
-                DisplayName = "Popug Tracker",
+                DisplayName = $"Popug {clientId}",
                 RedirectUris =
                 {
-                    new Uri("https://localhost:5142/callback/login/local")
+                    new Uri($"https://localhost:{port}/callback/login/local")
                 },
                 PostLogoutRedirectUris =
                 {
-                    new Uri("https://localhost:5142/callback/logout/local")
+                    new Uri($"https://localhost:{port}/callback/logout/local")
                 },
                 Permissions =
                 {

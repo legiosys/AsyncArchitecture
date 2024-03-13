@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using EventSchemaRegistry;
+using MassTransit;
 using PopugJira.Auth.Contracts;
 
 namespace PopugJira.Auth.DiExt;
@@ -12,7 +13,7 @@ public static class KafkaDiExtensions
             cfg.UsingInMemory();
             cfg.AddRider(rider =>
             {
-                rider.AddProducer<PopugChanged>("popug-streaming");
+                rider.AddProducer<KafkaEvent<Popug_Changed_V1>>("popug-streaming");
                 rider.UsingKafka(((context, kafka) =>
                 {
                     kafka.Host("localhost:9092");

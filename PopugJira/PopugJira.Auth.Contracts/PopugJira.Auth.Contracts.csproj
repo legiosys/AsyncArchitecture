@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\EventSchemaRegistry\EventSchemaRegistry.csproj" />
+    </ItemGroup>
+
 </Project>
