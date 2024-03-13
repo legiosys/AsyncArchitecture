@@ -1,0 +1,61 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+
+  "title": "FinTransaction.Applied.v1",
+  "description": "json schema for fin transaction applied event (version 1)",
+
+  "definitions": {
+    "event_data": {
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "credit": {
+          "type": "string"
+        },
+        "debit": {
+          "type": "string"
+        },
+        "popugId": {
+          "type": "string"
+        },
+        "taskId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "taskId",
+        "transactionId",
+        "type",
+        "credit",
+        "debit",
+        "popugId"
+      ]
+    }
+  },
+
+  "type": "object",
+
+  "properties": {
+    "eventId":       { "type": "string" },
+    "version":       { "enum": [1] },
+    "eventName":    { "const": "FinTransaction_Applied_V1" },
+    "sentTime":    { "type": "string" },
+    "producer":      { "type": "string" },
+
+    "data": { "$ref": "#/definitions/event_data" }
+  },
+
+  "required": [
+    "eventId",
+    "version",
+    "eventName",
+    "sentTime",
+    "producer",
+    "data"
+  ]
+}

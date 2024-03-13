@@ -1,0 +1,49 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+
+  "title": "TaskPrice.Calculated.v1",
+  "description": "json schema for task price calculated event (version 1)",
+
+  "definitions": {
+    "event_data": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string"
+        },
+        "assignPrice": {
+          "type": "integer"
+        },
+        "completePrice": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "taskId",
+        "assignPrice",
+        "completePrice"
+      ]
+    }
+  },
+
+  "type": "object",
+
+  "properties": {
+    "eventId":       { "type": "string" },
+    "version":       { "enum": [1] },
+    "eventName":    { "const": "TaskPrice_Calculated_V1" },
+    "sentTime":    { "type": "string" },
+    "producer":      { "type": "string" },
+
+    "data": { "$ref": "#/definitions/event_data" }
+  },
+
+  "required": [
+    "eventId",
+    "version",
+    "eventName",
+    "sentTime",
+    "producer",
+    "data"
+  ]
+}

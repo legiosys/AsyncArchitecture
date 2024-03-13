@@ -27,6 +27,7 @@ public class TasksController : ControllerBase
             Id = Guid.NewGuid(),
             Assignee = await assigner.GetAssignee(),
             Description = request.Description,
+            JiraId = request.JiraId,
             Status = PopugTaskStatus.Active
         };
 

@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using EventSchemaRegistry;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PopugJira.Auth.Contracts;
 using PopugJira.Tracker.Db;
@@ -6,11 +7,13 @@ using PopugJira.Tracker.Models;
 
 namespace PopugJira.Tracker.Handlers;
 
-public class ManageAccountHandler(TrackerDbContext db) : IConsumer<PopugChanged>
+public class ManageAccountHandler(TrackerDbContext db) : IConsumer<KafkaEvent<Popug_Changed_V1>>
 {
-    public async Task Consume(ConsumeContext<PopugChanged> context)
+    public async Task Consume(ConsumeContext<KafkaEvent<Popug_Changed_V1>> context)
     {
-        var message = context.Message;
+        SchemeValidator.ValidateOrThrow(context.Message);
+        
+        var message = context.Message.Data;
         if (message.ChangeType != PopugChangedTypes.Created)
             return;
         

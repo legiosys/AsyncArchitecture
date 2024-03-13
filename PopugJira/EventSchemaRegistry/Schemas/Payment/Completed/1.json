@@ -1,0 +1,49 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+
+  "title": "Payment.Completed.v1",
+  "description": "json schema for payment completed event (version 1)",
+
+  "definitions": {
+    "event_data": {
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "type": "string"
+        },
+        "payment": {
+          "type": "integer"
+        },
+        "popugId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "transactionId",
+        "payment",
+        "popugId"
+      ]
+    }
+  },
+
+  "type": "object",
+
+  "properties": {
+    "eventId":       { "type": "string" },
+    "version":       { "enum": [1] },
+    "eventName":    { "const": "Payment_Completed_V1" },
+    "sentTime":    { "type": "string" },
+    "producer":      { "type": "string" },
+
+    "data": { "$ref": "#/definitions/event_data" }
+  },
+
+  "required": [
+    "eventId",
+    "version",
+    "eventName",
+    "sentTime",
+    "producer",
+    "data"
+  ]
+}
