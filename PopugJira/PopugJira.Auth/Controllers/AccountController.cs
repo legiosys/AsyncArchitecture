@@ -1,11 +1,13 @@
 ﻿using System.Collections.Immutable;
 using Confluent.Kafka;
+using EventSchemaRegistry;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PopugJira.Auth.Contracts;
 using PopugJira.Auth.Models;
 using PopugJira.Auth.ViewModels.Account;
+
 
 namespace PopugJira.Auth.Controllers;
 
@@ -45,7 +47,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register([FromForm]RegisterViewModel request, 
         [FromServices] UserManager<Popug> userManager, 
-        [FromServices] ITopicProducer<PopugChanged> popugChangedProducer)
+        [FromServices] ITopicProducer<KafkaEvent<Popug_Changed_V1>> popugChangedProducer)
     {
         var popug = new Popug() {UserName = request.Login};
         var result = await userManager.CreateAsync(popug, request.Password);
@@ -62,12 +64,14 @@ public class AccountController : Controller
             return View(request);
         }
 
-        await popugChangedProducer.Produce(new PopugChanged(popug.PopugId(), PopugChangedTypes.Created,
-            new Dictionary<string, string>
-                {
-                    {"position", request.Position},
-                    {"login", request.Login}
-                }));
+        await popugChangedProducer.Produce(
+            new KafkaEvent<Popug_Changed_V1>(
+                new Popug_Changed_V1(popug.PopugId(), PopugChangedTypes.Created,
+                    new Dictionary<string, string>
+                    {
+                        {"position", request.Position},
+                        {"login", request.Login}
+                    }), "PopugAuth"));
         
         return RedirectToAction("Login");
     }
